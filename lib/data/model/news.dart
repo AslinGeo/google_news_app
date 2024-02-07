@@ -3,21 +3,21 @@ class News {
   String description;
   String source;
   DateTime publishedDate;
-
-  News({
-    required this.title,
-    required this.description,
-    required this.source,
-    required this.publishedDate,
-  });
+  String url;
+  News(
+      {required this.title,
+      required this.description,
+      required this.source,
+      required this.publishedDate,
+      required this.url});
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
-      title: json['title'],
-      description: json['description'],
-      source: json['source'],
-      publishedDate: DateTime.parse(json['publishedDate']),
-    );
+        title: json['title'],
+        description: json['description'],
+        source: json['source'],
+        publishedDate: DateTime.parse(json['publishedDate']),
+        url: json["url"]);
   }
 
   Map<String, dynamic> toJson() {
