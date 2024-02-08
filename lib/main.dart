@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:google_news_app/constants/appcolors.dart';
 import 'package:google_news_app/constants/appstrings.dart';
 import 'package:google_news_app/route/route.dart';
 

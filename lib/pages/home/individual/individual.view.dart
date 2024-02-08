@@ -4,6 +4,7 @@ import 'package:google_news_app/constants/appcolors.dart';
 import 'package:google_news_app/data/model/news.dart';
 import 'package:intl/intl.dart';
 
+// ignore: must_be_immutable
 class IndividualView extends GetResponsiveView {
   News news;
   IndividualView({super.key, required this.news});
@@ -48,39 +49,47 @@ body(News news) {
                   height: 200, // Adjust height as needed
                 ),
               ),
-              SizedBox(height: 12),
+              const SizedBox(height: 12),
             ],
             Text(
               news.title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               news.description ?? "",
               maxLines: 3,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               children: [
-                Icon(Icons.calendar_today, size: 16),
-                SizedBox(width: 4),
+                Icon(
+                  Icons.calendar_today,
+                  size: 16,
+                  color: AppColors.lightGreen,
+                ),
+                const SizedBox(width: 4),
                 Text(
                   news.publishedDate != null
                       ? DateFormat.yMMMd().format(news.publishedDate!)
                       : "", // You might want to format the date
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
-                SizedBox(width: 16),
-                Icon(Icons.source, size: 16),
-                SizedBox(width: 4),
+                const SizedBox(width: 16),
+                Icon(
+                  Icons.source,
+                  size: 16,
+                  color: AppColors.lightGreen,
+                ),
+                const SizedBox(width: 4),
                 Text(
                   news.source ?? "",
-                  style: TextStyle(fontSize: 14),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ],
             ),

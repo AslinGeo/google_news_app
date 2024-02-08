@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_news_app/constants/appcolors.dart';
@@ -38,23 +37,53 @@ class HomeView extends GetResponsiveView<HomeController> {
   }
 
   body() {
-    return Obx(() => controller.news.value.isNotEmpty
-        ? ListView.builder(
-            itemCount: controller.news.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    newsCard(controller.news[index]),
-                    const SizedBox(
-                      height: 10,
-                    )
-                  ],
-                ),
-              );
-            })
-        : Container());
+    // ignore: invalid_use_of_protected_member
+    return Obx(() => !controller.isNetworkAvailable.value
+        ? noNetwork()
+        // ignore: invalid_use_of_protected_member
+        : controller.news.value.isNotEmpty
+            ? ListView.builder(
+                itemCount: controller.news.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        newsCard(controller.news[index]),
+                        const SizedBox(
+                          height: 10,
+                        )
+                      ],
+                    ),
+                  );
+                })
+            : Container());
+  }
+
+  noNetwork() {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'No Internet Connection',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Please check your network settings and try again.',
+            style: TextStyle(
+              fontSize: 16,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          SizedBox(height: 20),
+        ],
+      ),
+    );
   }
 
   newsCard(News news) {
