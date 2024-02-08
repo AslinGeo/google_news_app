@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
 import 'package:google_news_app/data/model/repo/newsprovider.dart';
@@ -5,6 +7,8 @@ import 'package:google_news_app/data/model/repo/newsprovider.dart';
 class HomeController extends GetxController {
   RxList news = [].obs;
   RxBool isNetworkAvailable = true.obs;
+  // ignore: unused_field
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   init() {
     checkNetwork();
     fetchNews();
@@ -15,10 +19,18 @@ class HomeController extends GetxController {
   }
 
   checkNetwork() async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      isNetworkAvailable.value = false;
-    }
-    isNetworkAvailable.refresh();
+    _connectivitySubscription = Connectivity()
+        .onConnectivityChanged
+        .listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        // No internet connection
+        isNetworkAvailable.value = false;
+      } else {
+        // Internet connection available
+        isNetworkAvailable.value = true;
+      }
+      isNetworkAvailable.refresh();
+    });
+    return isNetworkAvailable.value;
   }
 }

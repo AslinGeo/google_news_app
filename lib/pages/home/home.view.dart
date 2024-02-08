@@ -37,27 +37,40 @@ class HomeView extends GetResponsiveView<HomeController> {
   }
 
   body() {
+    return StreamBuilder<bool>(
+      stream: controller.isNetworkAvailable.stream,
+      initialData: true, // Assuming internet is initially available
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          // Handle loading state
+          return const CircularProgressIndicator();
+        }
+        if (!snapshot.data!) {
+          // No internet connection
+          return noNetwork();
+        } else {
+          // Internet connection available, display your normal UI
+          return Obx(() => controller.news.value.isNotEmpty
+              ? ListView.builder(
+                  itemCount: controller.news.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        children: [
+                          newsCard(controller.news[index]),
+                          const SizedBox(
+                            height: 10,
+                          )
+                        ],
+                      ),
+                    );
+                  })
+              : Container());
+        }
+      },
+    );
     // ignore: invalid_use_of_protected_member
-    return Obx(() => !controller.isNetworkAvailable.value
-        ? noNetwork()
-        // ignore: invalid_use_of_protected_member
-        : controller.news.value.isNotEmpty
-            ? ListView.builder(
-                itemCount: controller.news.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        newsCard(controller.news[index]),
-                        const SizedBox(
-                          height: 10,
-                        )
-                      ],
-                    ),
-                  );
-                })
-            : Container());
   }
 
   noNetwork() {
