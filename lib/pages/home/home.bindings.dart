@@ -1,9 +1,9 @@
-import 'package:get/get_instance/src/bindings_interface.dart';
+import 'package:get/get.dart';
+import 'package:google_news_app/pages/home/home.controller.dart';
 
-class HomeBindings extends Bindings{
+class HomeBindings extends Bindings {
   @override
   void dependencies() {
-    // TODO: implement dependencies
+    Get.lazyPut(() => HomeController());
   }
-  
 }
